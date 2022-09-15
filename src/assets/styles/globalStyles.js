@@ -58,6 +58,10 @@ a{
 	background-color: #181A20;
 }
 
+body {
+	font-family: 'Urbanist', sans-serif;
+}
+
 
 `
 export default GlobalStyle;
