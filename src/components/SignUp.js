@@ -1,6 +1,6 @@
 import { useState } from "react"
 import styled from "styled-components"
-import { Button, Input } from "./Components"
+import { Button, Input, ButtonWrapper } from "./Components"
 import { register } from "../services/progamers";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -28,6 +28,7 @@ export default function SignUp() {
         delete data.ConfirmPassword
         
         register(data).then(() => {
+            alert('Cadastro realizado com sucesso!')
             navigate('/');
         }).catch(res => {
             alert(res.response.data)
@@ -76,7 +77,7 @@ export default function SignUp() {
                     required
                 ></Input>
                 
-                <Button type='submit'>Cadastrar</Button>
+                <NewButton type='submit'>Cadastrar</NewButton>
             </Form>
 
             <Link to = '/'>
@@ -87,7 +88,20 @@ export default function SignUp() {
     )
 }
 
+const NewButton = styled(ButtonWrapper)`
+    width: 75%;
+    border-radius: 25px;
+
+    margin-top: 25px;
+`
+
 const Form = styled.form`
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     input {
         margin-bottom: 15px;
         padding: 10px;
@@ -123,4 +137,6 @@ const LogoName = styled.span`
     font-family: 'Urbanist', sans-serif;
     font-weight: 700;
     font-size: 44px;
+
+    margin-bottom: 50px;
 `

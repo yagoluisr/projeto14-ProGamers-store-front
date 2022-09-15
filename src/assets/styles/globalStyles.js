@@ -63,7 +63,7 @@ body {
 }
 
 .root {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
 
     display: flex;
