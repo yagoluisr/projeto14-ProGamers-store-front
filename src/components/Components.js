@@ -34,4 +34,4 @@ const InputWrapper =styled.input`
     
 `
 
-export {Button,Input}
+export {Button,Input,ButtonWrapper}
