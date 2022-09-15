@@ -62,6 +62,15 @@ body {
 	font-family: 'Urbanist', sans-serif;
 }
 
+.root {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
 
 `
 export default GlobalStyle;

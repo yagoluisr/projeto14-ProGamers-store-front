@@ -18,13 +18,23 @@ export default function SignUp() {
 
     console.log(data)
 
+    function handleRegister (e) {
+        e.preventDefault();
+
+        if (data.password !== data.ConfirmPassword) return alert('A senha não confere');
+
+        delete data.ConfirmPassword
+        
+        //promise para o back-end
+
+    }
 
     return (
         <Container>
             <LogoName>ProGamers</LogoName>
             {/* LOGO */}
 
-            <Form>
+            <Form onSubmit={handleRegister} >
                 <Input
                     placeholder = 'Nome'
                     name = 'name'
@@ -51,8 +61,17 @@ export default function SignUp() {
                     onChange = {updateData}
                     //required
                 ></Input>
+
+                <Input
+                    placeholder='Confirmar senha'
+                    name = 'ConfirmPassword'
+                    type = 'password'
+                    value = {data.ConfirmPassword}
+                    onChange = {updateData}
+                    //required
+                ></Input>
                 
-                <Button type='submit' >Cadastrar</Button>
+                <Button type='submit'>Cadastrar</Button>
             </Form>
         </Container>
     )
@@ -74,6 +93,9 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0 auto 0 auto;
+
+    width: 90%;
 `
 
 const LogoName = styled.span`
