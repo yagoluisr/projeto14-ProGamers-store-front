@@ -7,5 +7,20 @@ function register(body) {
     const promise = axios.post(`${BASE_URL}sign-up`, body);
     return promise;
 }
+function getProducts(){
+    const config=createHeaders();
+    const promise=axios.get(`${BASE_URL}home`,config);
+    return promise;
 
-export { register }
+}
+
+function createHeaders(){
+    const auth=JSON.parse(localStorage.getItem('mywallet'));
+    const config={
+        headers:{
+            Authorization:`Bearer e5ac47c0-e8a6-4e3a-aaea-43dc93632829`
+    }};
+    return config;
+}
+
+export { register,getProducts }
