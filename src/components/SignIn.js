@@ -6,7 +6,7 @@ import { Input } from "./Components";
 import { Container, Form, HasLogin, LogoName, NewButton } from "./SignUp";
 
 export default function SignIn() {
-    const { token, setToken } = useContext(UserContext);
+    const { setToken } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -25,7 +25,8 @@ export default function SignIn() {
     function handleRegister (e) {
         e.preventDefault();
 
-        login(data).then(() => {
+        login(data).then((res) => {
+            setToken(res.data)
             navigate('/home');
         }).catch(res => {
             alert(res.response.data)
