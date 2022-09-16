@@ -8,4 +8,9 @@ function register(body) {
     return promise;
 }
 
-export { register }
+function login(body) {
+    const promise = axios.post(`${BASE_URL}`, body);
+    return promise;
+}
+
+export { register, login }
