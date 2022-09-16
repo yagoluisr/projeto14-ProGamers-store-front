@@ -88,14 +88,14 @@ export default function SignUp() {
     )
 }
 
-const NewButton = styled(ButtonWrapper)`
+export const NewButton = styled(ButtonWrapper)`
     width: 75%;
     border-radius: 25px;
 
     margin-top: 25px;
 `
 
-const Form = styled.form`
+export const Form = styled.form`
     width: 100%;
 
     display: flex;
@@ -111,13 +111,13 @@ const Form = styled.form`
 
 `
 
-const HasLogin = styled.span`
+export const HasLogin = styled.span`
     font-weight: 400;
     font-size: 18px;
     color: #FFFFFF;
 `
 
-const Container = styled.div`
+export const Container = styled.div`
     max-width: 500px;
     width: 90%;
 
@@ -131,7 +131,7 @@ const Container = styled.div`
     }
 `
 
-const LogoName = styled.span`
+export const LogoName = styled.span`
     color: #ffffff;
 
     font-family: 'Urbanist', sans-serif;

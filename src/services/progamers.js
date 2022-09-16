@@ -23,4 +23,9 @@ function createHeaders(){
     return config;
 }
 
-export { register,getProducts }
+function login(body) {
+    const promise = axios.post(`${BASE_URL}`, body);
+    return promise;
+}
+
+export { register,getProducts,login}
