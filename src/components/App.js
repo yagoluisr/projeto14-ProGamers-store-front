@@ -11,10 +11,11 @@ export default function App(){
     const [cart,setCart]=useState(5);
     const [productList,setProductList]=useState([]);
     const [categorie,setCategorie]=useState('');
+    const [selection,setSelection]=useState('');
     return(
         <BrowserRouter>
             <GlobalStyle/> 
-            <UserContext.Provider value={{cart,setCart,productList,setProductList,categorie,setCategorie}}>
+            <UserContext.Provider value={{cart,setCart,productList,setProductList,categorie,setCategorie,selection,setSelection}}>
             <Routes>
                 <Route path='/test' element={<Teste/>}/>
                 <Route path='/sign-up' element={<SignUp/>}/>
