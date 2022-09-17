@@ -10,6 +10,7 @@ export default function Products(){
     const{selection}=useContext(UserContext);
     const { token } = useContext(UserContext);
     const {shop,setShop}= useContext(UserContext);
+    const {setCart}= useContext(UserContext);
     useEffect(()=>{
         getProducts(token)
          .then((answer)=>{
@@ -26,7 +27,7 @@ export default function Products(){
          .catch((error)=>{
             alert(error)});
         
-    },[]);
+    },[shop]);
     let lista =[]
     console.log(lista)
     const p = {title:"Headset Gamer Bluetooth JBL", value:"1109,90", image:"https://user-images.githubusercontent.com/106850140/190312342-d67ca2d8-82a5-4d64-a279-9e9eebb5cb5e.jpg"}
@@ -37,10 +38,11 @@ export default function Products(){
         {productList?(productList.map((value)=>
             <Product onClick={()=>{ lista.push({title:value.title,value:value.value,image:value.image});
             console.log('lista',lista);
-            let x=[...shop,lista]
-            setShop(x);
-            console.log('x',x)
+            
+            setShop([...shop,lista]);
+            
             console.log('shop',shop)
+            setCart(shop.length)
             }} title={value.title} value={value.value} image={value.image}>
             </Product>
             )):(<></>)}
@@ -50,13 +52,13 @@ export default function Products(){
     )
 }
 const ProductList=styled.div`
-   
+   top:1000px;
     max-width: 500px;
     width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top:120px;
-   
+    margin-top:1000px;
+    
 
 `

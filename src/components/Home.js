@@ -12,12 +12,14 @@ export default function Home(){
     const [categorie,setCategorie]=useState(''); 
     const {setSelection}=useContext(UserContext);
     const { token } = useContext(UserContext);
+    const {shop,setShop}= useContext(UserContext);
     
     const navigate=useNavigate();
     useEffect(()=>{
         getCategories(token)
          .then((answer)=>{
             setCategorie(answer.data.categorie);
+            setShop([]);
             
         ;})
          .catch((error)=>{

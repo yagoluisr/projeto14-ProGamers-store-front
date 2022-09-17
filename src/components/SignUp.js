@@ -1,12 +1,16 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import styled from "styled-components"
 import { Button, Input, ButtonWrapper } from "./Components"
 import { register } from "../services/progamers";
 import { Link, useNavigate } from "react-router-dom";
+import UserContext from "../contexts/User.context";
 
 export default function SignUp() {
     const navigate = useNavigate();
-
+    const {setShop}= useContext(UserContext);
+    
+    setShop('');
+    
     const [data, setData] = useState({
         name: '',
         email: '',

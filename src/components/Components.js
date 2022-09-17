@@ -6,10 +6,10 @@ import UserContext from "../contexts/User.context";
 
 
 
-function Button({children}){
+function Button({children,onClick}){
    
     return(
-        <ButtonWrapper>{children}</ButtonWrapper>
+        <ButtonWrapper onClick={onClick}>{children}</ButtonWrapper>
     )
 };
 function Input({...otherProps}){
@@ -51,19 +51,61 @@ function Categorie({onClick,title,image}){
 
 function Product ({onClick,title,image,value}){
     return(
-            <ProductWrapper onClick={onClick}>
+            <ProductWrapper >
+                <ProductImage>
                 <img src={image} />
-                <p>{title}</p>
+                </ProductImage>
+                <ProductDescription>
+                
+                <h1>{title}</h1>
                 <p>{value}</p>
+                </ProductDescription>
+                <Button onClick={onClick}>ADICIONAR AO CARRINHO</Button>
             </ProductWrapper>
 
     )
 }
 const ProductWrapper=styled.div`
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+    border-radius: 40px;
+    background-color: #464648;
+`;
+const ProductImage=styled.div`
+    width:100%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom:15px;
+    border-radius: 5px;
+
+`;
+const ProductDescription=styled.div`
+    background-color: #464648;
+    width: 100%;
+    padding:15px;
+    p{
+        color:green;
+        font-weight: 700;
+        font-size: 30px;
+        background-color: #464648;
+    }
+    h1{
+        color:white;
+        font-weight: 400;
+        font-size: 22px;
+        margin-bottom:15px;
+        background-color: #464648;
+    }
     
+`;
 
 
-`
+
 
 
 const CategorieWrapper=styled.div`
@@ -118,6 +160,10 @@ const MenuWrapper =styled.div`
         font-weight: 700;
         font-size: 30px;
     }
+    a{
+        background-color: #1F222A;
+
+    }
     div{
         height: 20px;
         width: 20px;
@@ -132,7 +178,7 @@ const MenuWrapper =styled.div`
         
         h1{
             color: white;
-            font-size: 15px;
+            font-size: 12px;
             background-color:red
         }
 
