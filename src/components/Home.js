@@ -1,23 +1,24 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import UserContext from "../contexts/User.context";
 import { Menu,Categorie} from "./Components";
-import { getProducts } from "../services/progamers";
+import { getCategories } from "../services/progamers";
 import { useNavigate } from "react-router-dom";
 
 
 
 export default function Home(){
-    const {productList,setProductList}=useContext(UserContext); 
-    const {categorie,setCategorie}=useContext(UserContext); 
+     
+    const [categorie,setCategorie]=useState(''); 
     const {setSelection}=useContext(UserContext);
+    const { token } = useContext(UserContext);
+    
     const navigate=useNavigate();
     useEffect(()=>{
-        getProducts()
+        getCategories(token)
          .then((answer)=>{
-            setProductList(answer.data.products);
             setCategorie(answer.data.categorie);
-            console.log('ae',productList)
+            
         ;})
          .catch((error)=>{
             alert(error)});

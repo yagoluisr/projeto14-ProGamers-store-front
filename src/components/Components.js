@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../contexts/User.context";
 
@@ -23,7 +23,7 @@ function Menu({icon1,icon2}){
     const {cart,setCart}=useContext(UserContext);
     let route;
     if(icon2==='log-out-outline'){
-        route='/sign-in'    
+        route='/'    
     
     }else{
         route='/home'
@@ -33,9 +33,9 @@ function Menu({icon1,icon2}){
     <MenuWrapper>
         <ion-icon name={icon1}></ion-icon>
         {(icon1==="cart"&&cart>0)?(<div><h1>{cart}</h1></div>):(<></>)}
-        <p>ProGamers</p>
+       <Link to={'/home'}><p>ProGamers</p></Link>
         
-        <ion-icon name={icon2} onClick={()=>{navigate(route)}}></ion-icon>
+        <Link to={route}><ion-icon name={icon2} ></ion-icon></Link>
     </MenuWrapper>
 
     )
@@ -47,8 +47,24 @@ function Categorie({onClick,title,image}){
         <img src={image} />
         </CategorieWrapper>
 )
-
 }
+
+function Product ({onClick,title,image,value}){
+    return(
+            <ProductWrapper onClick={onClick}>
+                <img src={image} />
+                <p>{title}</p>
+                <p>{value}</p>
+            </ProductWrapper>
+
+    )
+}
+const ProductWrapper=styled.div`
+    
+
+
+`
+
 
 const CategorieWrapper=styled.div`
     width: 100%;
@@ -145,4 +161,4 @@ const InputWrapper =styled.input`
 `
 
 
-export {Button,Input,ButtonWrapper,Menu,Categorie}
+export {Button,Input,ButtonWrapper,Menu,Categorie,Product}
