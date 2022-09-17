@@ -45,10 +45,12 @@ export default function Cart() {
 
                 </Product>
             </Products>
-
+        <>
+        </>
         </Container>
     )
 }
+
 
 const Container = styled.div`
     height: 90vh;
