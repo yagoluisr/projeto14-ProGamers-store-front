@@ -1,9 +1,7 @@
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../contexts/User.context";
-
-
 
 
 function Button({children,onClick}){
@@ -19,7 +17,6 @@ function Input({...otherProps}){
 };
 
 function Menu({icon1,icon2}){
-    const navigate=useNavigate();
     const {cart,setCart}=useContext(UserContext);
     let route;
     if(icon2==='log-out-outline'){
@@ -56,7 +53,6 @@ function Product ({onClick,title,image,value}){
                 <img src={image} />
                 </ProductImage>
                 <ProductDescription>
-                
                 <h1>{title}</h1>
                 <p>{value}</p>
                 </ProductDescription>
@@ -103,11 +99,6 @@ const ProductDescription=styled.div`
     }
     
 `;
-
-
-
-
-
 const CategorieWrapper=styled.div`
     width: 100%;
     display: flex;
@@ -117,9 +108,7 @@ const CategorieWrapper=styled.div`
     border-radius: 20px;
     padding-left:10px;
     padding-right:10px;
-    margin-bottom: 5%;
-    
-    
+    margin-bottom: 5%;   
     img{
         width: 45%;
         background-color: #1BAC4B;
@@ -131,13 +120,8 @@ const CategorieWrapper=styled.div`
         font-size: 35px;
         color: #FFFFFF;
         background-color: #1BAC4B;
-
     }
 `
-
-
-
-
 const MenuWrapper =styled.div`
     height: 40px;
     width: 100%;    
@@ -181,9 +165,7 @@ const MenuWrapper =styled.div`
             font-size: 12px;
             background-color:red
         }
-
     }
-
 `
 const ButtonWrapper =styled.button`
     width: 100%;
@@ -205,6 +187,5 @@ const InputWrapper =styled.input`
     border: 0;
     
 `
-
 
 export {Button,Input,ButtonWrapper,Menu,Categorie,Product}
