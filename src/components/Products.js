@@ -9,7 +9,7 @@ export default function Products(){
     const {productList,setProductList}=useContext(UserContext);
     const{selection}=useContext(UserContext);
     const { token } = useContext(UserContext);
-    const {setShop}= useContext(UserContext);
+    const {shop,setShop}= useContext(UserContext);
     useEffect(()=>{
         getProducts(token)
          .then((answer)=>{
@@ -35,7 +35,13 @@ export default function Products(){
         <Menu icon2="log-out-outline" icon1="cart"></Menu>
         <ProductList>
         {productList?(productList.map((value)=>
-            <Product onClick={()=>{ lista.push({title:value.title,value:value.value,image:value.image});console.log(lista)}} title={value.title} value={value.value} image={value.image}>
+            <Product onClick={()=>{ lista.push({title:value.title,value:value.value,image:value.image});
+            console.log('lista',lista);
+            let x=[...shop,lista]
+            setShop(x);
+            console.log('x',x)
+            console.log('shop',shop)
+            }} title={value.title} value={value.value} image={value.image}>
             </Product>
             )):(<></>)}
         </ProductList>
