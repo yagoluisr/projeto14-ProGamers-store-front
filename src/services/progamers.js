@@ -28,4 +28,9 @@ function login(body) {
     return promise;
 }
 
-export { register,getProducts,login}
+function finalizePurchase(body) {
+    const promise = axios.post(`${BASE_URL}/carrinho`, body);
+    return promise
+}
+
+export { register,getProducts,login, finalizePurchase}

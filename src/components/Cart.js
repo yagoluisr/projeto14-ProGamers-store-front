@@ -1,9 +1,41 @@
+import { useState } from "react"
 import styled from "styled-components"
-import { Input } from "./Components"
-
+import { ButtonWrapper, Input } from "./Components"
+import dayjs from 'dayjs';
+import { useNavigate } from "react-router-dom";
 
 
 export default function Cart() {
+
+    
+    const [count, setCount] = useState(1)
+    const [data, setData] = useState({
+        username: '',
+        adress: '',
+        amount: '',
+        date: dayjs().format('DD/MM/YY'),
+        products: []
+    });
+
+    const navigate = useNavigate()
+
+    function updateData(e) {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    function finalizePurchase() {
+        navigate('/sucesso');
+        // finalizePurchase(data).then(res => {
+        //     console.log(res.data)
+        //     navigate('/sucesso');
+        // }).catch(error => {
+        //     console.log(error)
+        // });
+    }
+
     return (
         <Container>
             <Adress>
@@ -12,6 +44,9 @@ export default function Cart() {
                     name = 'adress'
                     type = 'text'
                     placeholder = 'Rua, número, bairro e cidade'
+                    value = {data.name}
+                    onChange={updateData}
+                    //required
                 ></Input>
             </Adress>
 
@@ -34,9 +69,19 @@ export default function Cart() {
                         </Details>
                             <Actions>
                                 <Amount>
-                                    <ion-icon name="chevron-back-outline"></ion-icon>
-                                        1 
-                                    <ion-icon name="chevron-forward-outline"></ion-icon> 
+                                    <ion-icon name="chevron-back-outline" 
+                                        onClick={()=> {
+                                            if(count > 1){
+                                                const subtraction = count - 1
+                                                setCount(subtraction)
+                                            }
+                                        }
+                                    }></ion-icon>
+                                        {count} 
+                                    <ion-icon name="chevron-forward-outline" 
+                                        onClick={()=>
+                                            setCount(count + 1)
+                                    }></ion-icon> 
                                 </Amount>
                                 
                                 <Remove>Remover</Remove>
@@ -44,24 +89,65 @@ export default function Cart() {
                     </BoxProduct>
 
                 </Product>
+                
+                <Clear>Limpar carrinho X</Clear>
             </Products>
-        <>
-        </>
+
+            <Extract>
+                <Sumary>
+                    <ion-icon name="document-text-outline"></ion-icon>
+                    RESUMO
+                </Sumary>
+
+                <ValueProducts>
+                    <div>Valor dos produtos:</div>
+                    <div>R$499,89</div>
+                </ValueProducts>
+
+                <ShippingDetails>
+                    <div>Frete:</div>
+                    <div>R$14,99</div>
+                </ShippingDetails>
+
+                <TotalValue>
+                    <div>Total:</div>
+                    <div>R$514,88</div>
+                </TotalValue>
+
+                <Buttons>
+                    <NewButton onClick={finalizePurchase}>Finalizar compra</NewButton>
+                    <NewButton onClick={() => navigate('/home')}>Continuar Comprando</NewButton>
+                </Buttons>
+            </Extract>
+
+    
         </Container>
     )
 }
 
+const NewButton = styled(ButtonWrapper)`
+    width: 60%;
+    
+    font-weight: 600;
+    font-size: 20px;
+    color: #ffffff;
+
+    margin-top: 20px;
+
+`
+
 
 const Container = styled.div`
-    height: 90vh;
+    height: 100%;
     width: 95%;
 
+    margin: 100px auto 50px auto;
     input {
         margin-top: 10px;
     }
 `
 
-const Adress = styled.div`
+const Adress = styled.form`
     display: flex;
     flex-direction: column;
 
@@ -97,13 +183,15 @@ const NumberProduct = styled.div`
     margin-top: 20px;
     
     p {
-        width: 20%;
+        width: 30%;
 
         display: flex;
         justify-content: center;
 
         font-weight: 500;
         font-size: 20px;
+        padding-top: 4px;
+        padding-bottom: 3px;
         
         border: 1px solid red;
         border-bottom: 0;
@@ -121,6 +209,9 @@ const Product = styled.div`
 
     border: 1px solid red;
 
+    background-color: #1f222a;
+
+
 `
 
 const BoxProduct = styled.div`
@@ -129,6 +220,7 @@ const BoxProduct = styled.div`
     display: flex;
 
     margin-top: 12px;
+
 `
 const ImgProduct = styled.div`
 
@@ -199,3 +291,91 @@ const Remove = styled.button`
     background-color: green;
 
 `
+
+const Clear = styled.div`
+    width: 100%;
+
+    display: flex;
+    justify-content: flex-end;
+    
+    font-size: 20px;
+    font-weight: 500;
+    color: #ffffff;
+
+    margin-top: 15px;
+`
+
+const Extract = styled.div`
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 35px;
+`
+
+const Sumary = styled.span`
+    font-weight: 700;
+    font-size: 35px;
+    color: #ffffff;
+
+    ion-icon {
+        height: 30px;
+        width: 30px;
+        margin-right: 10px;
+    }
+`
+
+const ValueProducts = styled.span`
+    width: 85%;
+    
+    display: flex;
+    justify-content: space-between;
+    
+    font-weight: 500;
+    font-size: 20px;
+    color: #ffffff;
+
+    margin-top: 25px;
+`
+
+const ShippingDetails = styled.span`
+width: 85%;
+    
+    display: flex;
+    justify-content: space-between;
+    
+    font-weight: 500;
+    font-size: 20px;
+    color: #ffffff;
+
+    margin-top: 25px;
+`
+
+const TotalValue = styled.span`
+    width: 85%;
+    
+    display: flex;
+    justify-content: space-between;
+    
+    font-weight: 500;
+    font-size: 20px;
+    color: #ffffff;
+
+    padding-top: 7px;
+
+    border-top: 1px solid #ffffff;
+
+    margin-top: 25px;
+`
+
+const Buttons = styled.div`
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 20px;
+`   
