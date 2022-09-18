@@ -6,8 +6,11 @@ import Home from "./Home";
 import SignIn from "./SignIn";
 import { useState } from "react";
 import Products from "./Products";
+import PrivatePage from "./PrivatePage";
+
+
 export default function App(){
-    
+
     const [shop,setShop]=useState([])
     const [cart,setCart]=useState(shop.length);
     const [productList,setProductList]=useState([]);
@@ -20,8 +23,9 @@ export default function App(){
             <Routes>
                 <Route path='/' element={<SignIn/>}/>
                 <Route path='/sign-up' element={<SignUp/>}/>
-                <Route path='/home' element={<Home/>}/>
-                <Route path='/products' element={<Products/>}/>
+
+                <Route path='/home' element={<PrivatePage><Home/></PrivatePage>}/>
+                <Route path='/products' element={<PrivatePage><Products/></PrivatePage>}/>
             </Routes>   
             </UserContext.Provider>
         </BrowserRouter>

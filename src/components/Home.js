@@ -11,11 +11,11 @@ export default function Home(){
      
     const [categorie,setCategorie]=useState(''); 
     const {setSelection}=useContext(UserContext);
-    const { token } = useContext(UserContext);
+    
     
     const navigate=useNavigate();
     useEffect(()=>{
-        getCategories(token)
+        getCategories()
          .then((answer)=>{
             setCategorie(answer.data.categorie);
            
@@ -55,15 +55,13 @@ const Wrapper=styled.div`
 
 
 const CategorieList=styled.div`
-   
+    height: 100%;
     max-width: 500px;
     width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top:120px;
-    height: 100%;
-    margin-top:calc(40px + 10%);
+    margin-top:calc(40px + 5%);
    
 
 `
