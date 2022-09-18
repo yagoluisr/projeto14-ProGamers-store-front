@@ -17,5 +17,6 @@ export default function PrivatePage ({children}){
 }
 const Private=styled.div`
     height: 100%;
+    width: 100%;
 `
 

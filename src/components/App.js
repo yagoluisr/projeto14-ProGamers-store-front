@@ -7,6 +7,7 @@ import SignIn from "./SignIn";
 import { useState } from "react";
 import Products from "./Products";
 import PrivatePage from "./PrivatePage";
+import Sucess from "./Sucess";
 
 
 export default function App(){
@@ -26,6 +27,8 @@ export default function App(){
 
                 <Route path='/home' element={<PrivatePage><Home/></PrivatePage>}/>
                 <Route path='/products' element={<PrivatePage><Products/></PrivatePage>}/>
+
+                <Route path='/sucess' element={<PrivatePage><Sucess/></PrivatePage>}/>
             </Routes>   
             </UserContext.Provider>
         </BrowserRouter>

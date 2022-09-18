@@ -21,7 +21,17 @@ function Menu({icon1,icon2}){
     const {shop,setShop}=useContext(UserContext);
     const navigate = useNavigate();
     let route;
-    
+    let route1;
+    function link(){
+        if (icon1===cart){
+        route1='/carrinho'
+    }else{
+        route1='/products'
+    }
+    navigate(route)
+}
+
+
     function logout(){
         if(icon2==='log-out-outline'){
             route='/';
@@ -37,7 +47,7 @@ function Menu({icon1,icon2}){
     
     return(
     <MenuWrapper>
-        <ion-icon name={icon1}></ion-icon>
+        <ion-icon onClick={link} name={icon1}></ion-icon>
         {(icon1==="cart"&&cart>0)?(<div><h1>{cart}</h1></div>):(<></>)}
        <Link to={'/home'}><p>ProGamers</p></Link>
         
