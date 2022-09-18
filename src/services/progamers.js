@@ -7,22 +7,23 @@ function register(body) {
     const promise = axios.post(`${BASE_URL}sign-up`, body);
     return promise;
 }
-function getProducts(token){
-    const config=createHeaders(token);
+function getProducts(){
+    const config=createHeaders();
     const promise=axios.get(`${BASE_URL}products`,config);
     return promise;
 
 }
-function getCategories(token){
-    const config=createHeaders(token);
+function getCategories(){
+    const config=createHeaders();
     const promise=axios.get(`${BASE_URL}home`,config);
     return promise;
 }
 
-function createHeaders(token){
+function createHeaders(){
+    const auth=JSON.parse(localStorage.getItem('progamers'));
     const config={
         headers:{
-            Authorization:`Bearer ${token}`
+            Authorization:`Bearer ${auth.token}`
     }};
     return config;
 }

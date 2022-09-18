@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../contexts/User.context";
 
@@ -18,12 +18,21 @@ function Input({...otherProps}){
 
 function Menu({icon1,icon2}){
     const {cart,setCart}=useContext(UserContext);
+    const {shop,setShop}=useContext(UserContext);
+    const navigate = useNavigate();
     let route;
-    if(icon2==='log-out-outline'){
-        route='/'    
     
-    }else{
-        route='/home'
+    function logout(){
+        if(icon2==='log-out-outline'){
+            route='/';
+            localStorage.removeItem('progamers');
+            setCart(0);
+            setShop('');
+      
+        }else{
+            route='/home'
+        }
+        navigate(route)
     }
     
     return(
@@ -32,7 +41,7 @@ function Menu({icon1,icon2}){
         {(icon1==="cart"&&cart>0)?(<div><h1>{cart}</h1></div>):(<></>)}
        <Link to={'/home'}><p>ProGamers</p></Link>
         
-        <Link to={route}><ion-icon name={icon2} ></ion-icon></Link>
+        <ion-icon onClick={logout} name={icon2} ></ion-icon>
     </MenuWrapper>
 
     )

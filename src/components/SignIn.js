@@ -6,7 +6,6 @@ import { Input } from "./Components";
 import { Container, Form, HasLogin, LogoName, NewButton } from "./SignUp";
 
 export default function SignIn() {
-    const { setToken } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -26,7 +25,11 @@ export default function SignIn() {
         e.preventDefault();
 
         login(data).then((res) => {
-            setToken(res.data)
+            
+            const token=res.data;
+            const authJSON =JSON.stringify({token:token});
+            localStorage.setItem('progamers',authJSON)   
+
             navigate('/home');
         }).catch(res => {
             alert(res.response.data)
@@ -58,7 +61,7 @@ export default function SignIn() {
                 
                 <NewButton type='submit'>Login</NewButton>
 
-                <Link to = '/'>
+                <Link to = '/sign-up'>
                     <HasLogin>Primeira vez? Cadastre-se!</HasLogin>
                 </Link>
             </Form>

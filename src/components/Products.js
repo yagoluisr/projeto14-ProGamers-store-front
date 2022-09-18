@@ -8,13 +8,11 @@ import { Menu,Product} from "./Components";
 export default function Products(){
     const {productList,setProductList}=useContext(UserContext);
     const{selection}=useContext(UserContext);
-    const { token } = useContext(UserContext);
     const {shop,setShop}= useContext(UserContext);
     const {cart,setCart}= useContext(UserContext);
    
-    let lista =[]
     useEffect(()=>{
-        getProducts(token)
+        getProducts()
          .then((answer)=>{
             if(selection==="Mouses"){
                 setProductList(answer.data.Mouses);
@@ -32,24 +30,21 @@ export default function Products(){
     },[]);
 
     return(
-        <>
+        <Wrapper>
         <Menu icon2="log-out-outline" icon1="cart"></Menu>
         <ProductList>
            
         {productList?(productList.map((value)=>
-            <Product onClick={()=>{ lista.push({title:value.title,value:value.value,image:value.image});
-            console.log('lista',lista);
-            setShop([...shop,lista]);
-            
-            console.log('shop',shop)
-            console.log(shop.length)
-            setCart(shop.length)
+            <Product onClick={()=>{
+            setShop([...shop,{title:value.title,value:value.value,image:value.image}]);
+            console.log('shop',shop);
+            setCart(shop.length);
             }} title={value.title} value={value.value} image={value.image}>
             </Product>
             )):(<></>)}
         </ProductList>
 
-        </>
+        </Wrapper>
     )
 }
 const ProductList=styled.div`
@@ -59,8 +54,13 @@ const ProductList=styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top:calc(40px + 20%);
-    
-    
+    margin-top:calc(40px + 5%);
+
+`
+
+const Wrapper=styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
 `
