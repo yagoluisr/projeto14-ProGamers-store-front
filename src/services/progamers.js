@@ -9,16 +9,21 @@ function register(body) {
 }
 function getProducts(){
     const config=createHeaders();
-    const promise=axios.get(`${BASE_URL}home`,config);
+    const promise=axios.get(`${BASE_URL}products`,config);
     return promise;
 
 }
+function getCategories(){
+    const config=createHeaders();
+    const promise=axios.get(`${BASE_URL}home`,config);
+    return promise;
+}
 
 function createHeaders(){
-    const auth=JSON.parse(localStorage.getItem('mywallet'));
+    const auth=JSON.parse(localStorage.getItem('progamers'));
     const config={
         headers:{
-            Authorization:`Bearer e5ac47c0-e8a6-4e3a-aaea-43dc93632829`
+            Authorization:`Bearer ${auth.token}`
     }};
     return config;
 }
@@ -33,4 +38,4 @@ function finalizePurchase(body) {
     return promise
 }
 
-export { register,getProducts,login, finalizePurchase}
+export { register, getProducts, login, getCategories, finalizePurchase}

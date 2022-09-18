@@ -1,23 +1,25 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import UserContext from "../contexts/User.context";
 import { Menu,Categorie} from "./Components";
-import { getProducts } from "../services/progamers";
+import { getCategories } from "../services/progamers";
 import { useNavigate } from "react-router-dom";
 
 
 
 export default function Home(){
-    const {productList,setProductList}=useContext(UserContext); 
-    const {categorie,setCategorie}=useContext(UserContext); 
+     
+    const [categorie,setCategorie]=useState(''); 
     const {setSelection}=useContext(UserContext);
+    
+    
     const navigate=useNavigate();
     useEffect(()=>{
-        getProducts()
+        getCategories()
          .then((answer)=>{
-            setProductList(answer.data.products);
             setCategorie(answer.data.categorie);
-            console.log('ae',productList)
+           
+            
         ;})
          .catch((error)=>{
             alert(error)});
@@ -47,18 +49,19 @@ const Wrapper=styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    
 
 `
 
 
 const CategorieList=styled.div`
-   
+    height: 100%;
     max-width: 500px;
     width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top:120px;
+    margin-top:calc(40px + 5%);
    
 
 `

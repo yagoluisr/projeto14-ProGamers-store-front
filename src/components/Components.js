@@ -1,15 +1,13 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../contexts/User.context";
 
 
-
-
-function Button({children}){
+function Button({children,onClick}){
    
     return(
-        <ButtonWrapper>{children}</ButtonWrapper>
+        <ButtonWrapper onClick={onClick}>{children}</ButtonWrapper>
     )
 };
 function Input({...otherProps}){
@@ -19,23 +17,31 @@ function Input({...otherProps}){
 };
 
 function Menu({icon1,icon2}){
-    const navigate=useNavigate();
     const {cart,setCart}=useContext(UserContext);
+    const {shop,setShop}=useContext(UserContext);
+    const navigate = useNavigate();
     let route;
-    if(icon2==='log-out-outline'){
-        route='/sign-in'    
     
-    }else{
-        route='/home'
+    function logout(){
+        if(icon2==='log-out-outline'){
+            route='/';
+            localStorage.removeItem('progamers');
+            setCart(0);
+            setShop('');
+      
+        }else{
+            route='/home'
+        }
+        navigate(route)
     }
     
     return(
     <MenuWrapper>
         <ion-icon name={icon1}></ion-icon>
         {(icon1==="cart"&&cart>0)?(<div><h1>{cart}</h1></div>):(<></>)}
-        <p>ProGamers</p>
+       <Link to={'/home'}><p>ProGamers</p></Link>
         
-        <ion-icon name={icon2} onClick={()=>{navigate(route)}}></ion-icon>
+        <ion-icon onClick={logout} name={icon2} ></ion-icon>
     </MenuWrapper>
 
     )
@@ -47,9 +53,61 @@ function Categorie({onClick,title,image}){
         <img src={image} />
         </CategorieWrapper>
 )
-
 }
 
+function Product ({onClick,title,image,value}){
+    return(
+            <ProductWrapper >
+                <ProductImage>
+                <img src={image} />
+                </ProductImage>
+                <ProductDescription>
+                <h1>{title}</h1>
+                <p>{value}</p>
+                </ProductDescription>
+                <Button onClick={onClick}>ADICIONAR AO CARRINHO</Button>
+            </ProductWrapper>
+
+    )
+}
+const ProductWrapper=styled.div`
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+    border-radius: 40px;
+    background-color: #464648;
+`;
+const ProductImage=styled.div`
+    width:100%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom:15px;
+    border-radius: 5px;
+
+`;
+const ProductDescription=styled.div`
+    background-color: #464648;
+    width: 100%;
+    padding:15px;
+    p{
+        color:green;
+        font-weight: 700;
+        font-size: 30px;
+        background-color: #464648;
+    }
+    h1{
+        color:white;
+        font-weight: 400;
+        font-size: 22px;
+        margin-bottom:15px;
+        background-color: #464648;
+    }
+    
+`;
 const CategorieWrapper=styled.div`
     width: 100%;
     display: flex;
@@ -59,9 +117,7 @@ const CategorieWrapper=styled.div`
     border-radius: 20px;
     padding-left:10px;
     padding-right:10px;
-    margin-bottom: 5%;
-    
-    
+    margin-bottom: 5%;   
     img{
         width: 45%;
         background-color: #1BAC4B;
@@ -73,13 +129,8 @@ const CategorieWrapper=styled.div`
         font-size: 35px;
         color: #FFFFFF;
         background-color: #1BAC4B;
-
     }
 `
-
-
-
-
 const MenuWrapper =styled.div`
     height: 40px;
     width: 100%;    
@@ -102,6 +153,10 @@ const MenuWrapper =styled.div`
         font-weight: 700;
         font-size: 30px;
     }
+    a{
+        background-color: #1F222A;
+
+    }
     div{
         height: 20px;
         width: 20px;
@@ -116,12 +171,10 @@ const MenuWrapper =styled.div`
         
         h1{
             color: white;
-            font-size: 15px;
+            font-size: 12px;
             background-color:red
         }
-
     }
-
 `
 const ButtonWrapper =styled.button`
     width: 100%;
@@ -144,5 +197,4 @@ const InputWrapper =styled.input`
     
 `
 
-
-export {Button,Input,ButtonWrapper,Menu,Categorie}
+export {Button,Input,ButtonWrapper,Menu,Categorie,Product}
