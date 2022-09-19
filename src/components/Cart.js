@@ -8,14 +8,18 @@ import { finalizePurchase } from "../services/progamers";
 
 
 export default function Cart() {
+
     const { shop, setShop } = useContext(UserContext);
     
+    const local=JSON.parse(localStorage.getItem('progamers'));
+    const name=local.name;
+
     let soma = 0;
     shop.forEach(obj => soma += Number(obj.value.replace(',', '.')));
 
     const [total, setTotal] = useState(0);
     const [data, setData] = useState({
-        username: '',
+        username: name,
         adress: '',
         amount: soma,
         date: dayjs().format('DD/MM/YY'),
@@ -63,7 +67,7 @@ export default function Cart() {
                     placeholder = 'Rua, número, bairro e cidade'
                     value = {data.name}
                     onChange={updateData}
-                    //required
+                    required
                 ></Input>
             </Adress>
 
