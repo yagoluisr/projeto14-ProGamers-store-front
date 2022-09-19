@@ -39,8 +39,8 @@ export default function Products(){
         <Menu icon2="log-out-outline" icon1="cart"></Menu>
         <ProductList>
            
-        {productList?(productList.map((value)=>
-            <Product onClick={()=>{
+        {productList?(productList.map((value,key)=>
+            <Product key={key} onClick={()=>{
             setShop([
                 ...shop,
                 {

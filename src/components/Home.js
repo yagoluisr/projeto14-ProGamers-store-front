@@ -34,8 +34,8 @@ export default function Home(){
         <Menu icon2="log-out-outline" icon1="cart"></Menu>
         
         <CategorieList>
-        {categorie?(categorie.map((value)=>
-            <Categorie onClick={()=>{ setSelection(value.title);goProducts();}} title={value.title} image={value.image}>
+        {categorie?(categorie.map((value,key)=>
+            <Categorie key={key} onClick={()=>{ setSelection(value.title);goProducts();}} title={value.title} image={value.image}>
             </Categorie>
             )):(<></>)}
         

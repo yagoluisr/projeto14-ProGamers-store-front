@@ -63,7 +63,6 @@ export default function Cart() {
         <Container>
             <Adress>
                 <span>Endereço:</span>
-                <form>
                     <Input
                         name = 'adress'
                         type = 'text'
@@ -72,7 +71,6 @@ export default function Cart() {
                         onChange={updateData}
                         required
                     ></Input>
-                </form>
             </Adress>
 
             <Products>
@@ -111,7 +109,7 @@ export default function Cart() {
                 </TotalValue>
 
                 <Buttons>
-                    <NewButton onClick={finalizePurchases}>Finalizar compra</NewButton>
+                    <NewButton type='submit' onClick={finalizePurchases}>Finalizar compra</NewButton>
                     <NewButton onClick={() => navigate('/home')}>Continuar Comprando</NewButton>
                 </Buttons>
             </Extract>
