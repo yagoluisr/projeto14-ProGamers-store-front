@@ -1,14 +1,15 @@
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import styled from "styled-components"
 import { ButtonWrapper, Input } from "./Components"
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
+import UserContext from "../contexts/User.context";
 
 
 export default function Cart() {
-
+    const { shop, setShop } = useContext(UserContext);
     
-    const [count, setCount] = useState(1)
+    const [total, setTotal] = useState(0);
     const [data, setData] = useState({
         username: '',
         adress: '',
@@ -16,6 +17,8 @@ export default function Cart() {
         date: dayjs().format('DD/MM/YY'),
         products: []
     });
+
+    console.log(shop)
 
     const navigate = useNavigate()
 
@@ -26,6 +29,18 @@ export default function Cart() {
         });
     }
 
+    // useEffect(()=>{
+    //     console.log('MUDOU !!!')
+    // },[total])
+
+    //let soma = 0;
+    
+    
+        let soma = 0;
+        shop.forEach(obj => soma += Number(obj.value.replace(',', '.')));
+        //setTotal(soma)
+    
+    
     function finalizePurchase() {
         navigate('/sucesso');
         // finalizePurchase(data).then(res => {
@@ -36,6 +51,11 @@ export default function Cart() {
         // });
     }
 
+    setTimeout(()=>{
+        setTotal(soma)
+    },300)
+
+    //console.log(soma)
     return (
         <Container>
             <Adress>
@@ -53,45 +73,16 @@ export default function Cart() {
             <Products>
                 <span>Produtos</span>
 
-                <NumberProduct>
-                    <p>Produto 01</p>
-                </NumberProduct>
-
-                <Product>
-                    <BoxProduct>
-                        <ImgProduct>
-                            <img src="https://www.navegamer.com.br/image/cache/catalog/--250222-vitrine-s-bg/Saturno%20AA10-1200x1200.png"/>
-                        </ImgProduct>
-
-                        <Details>
-                            <p>Title</p>
-                            <Value>R$ 1.000,99</Value>
-                        </Details>
-                            <Actions>
-                                <Amount>
-                                    <ion-icon name="chevron-back-outline" 
-                                        onClick={()=> {
-                                            if(count > 1){
-                                                const subtraction = count - 1
-                                                setCount(subtraction)
-                                            }
-                                        }
-                                    }></ion-icon>
-                                        {count} 
-                                    <ion-icon name="chevron-forward-outline" 
-                                        onClick={()=>
-                                            setCount(count + 1)
-                                    }></ion-icon> 
-                                </Amount>
-                                
-                                <Remove>Remover</Remove>
-                            </Actions>
-                    </BoxProduct>
-
-                </Product>
+                { shop.map((obj, key) => (
+                    shop.length === 0 ? <>DEU RUIM !!!</> 
+                    : 
+                    <CartItem key={key} index={key} total={total} setTotal={setTotal} 
+                    shop={shop} setShop={setShop} {...obj}/>
+                ))}
                 
-                <Clear>Limpar carrinho X</Clear>
+                <Clear onClick={() => setShop([])}>Limpar carrinho X</Clear>
             </Products>
+
 
             <Extract>
                 <Sumary>
@@ -101,17 +92,17 @@ export default function Cart() {
 
                 <ValueProducts>
                     <div>Valor dos produtos:</div>
-                    <div>R$499,89</div>
+                    <div>R$ {total}</div>
                 </ValueProducts>
 
                 <ShippingDetails>
                     <div>Frete:</div>
-                    <div>R$14,99</div>
+                    <div>R$14.99</div>
                 </ShippingDetails>
 
                 <TotalValue>
                     <div>Total:</div>
-                    <div>R$514,88</div>
+                    <div>R$ {(total + 14.99).toFixed(2)}</div>
                 </TotalValue>
 
                 <Buttons>
@@ -122,6 +113,63 @@ export default function Cart() {
 
     
         </Container>
+    )
+}
+
+function CartItem({index, image, value, title, total, setTotal, shop, setShop, soma}) {
+    const [count, setCount] = useState(1);
+    
+    //console.log(total+Number(value.replace(',', '.'))*count);
+    //let soma = 0
+    soma = soma + Number(value.replace(',', '.')) * count
+    console.log(count)
+
+    return (
+        <>
+            <NumberProduct>
+                <p>Produto {index+1}</p>
+            </NumberProduct>  
+
+            <Product>
+                <BoxProduct>
+                    <ImgProduct>
+                        <img src={image}/>
+                    </ImgProduct>
+
+                    <Details>
+                        <p>{title}</p>
+                        <Value>R$ {(Number(value.replace(',', '.')) * count).toFixed(2)}</Value>
+                    </Details>
+                        <Actions>
+                            <Amount>
+                                <ion-icon name="chevron-back-outline" 
+                                    onClick={()=> {
+                                        if(count > 1){
+                                            const subtraction = count - 1
+                                            setCount(subtraction);
+                                            setTotal(total - (soma * (count -1)))
+                                        }
+                                    }}>
+                                </ion-icon>
+                                    {count} 
+                                <ion-icon name="chevron-forward-outline" 
+                                    onClick={()=>{
+                                        setCount(count + 1)
+                                        setTotal(total + (soma + Number(value.replace(',', '.')) * (count +1)))
+                                    }
+                                }></ion-icon> 
+                            </Amount>
+                            
+                            <Remove onClick={()=>{
+                                const shopCopy = [...shop]
+                                shopCopy.splice(index,1)
+                                setShop(shopCopy);
+                            }}  >Remover</Remove>
+                        </Actions>
+                </BoxProduct>
+
+            </Product>
+        </>
     )
 }
 

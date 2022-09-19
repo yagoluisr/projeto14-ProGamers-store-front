@@ -17,16 +17,27 @@ function Input({...otherProps}){
 };
 
 function Menu({icon1,icon2}){
-    const {cart,setCart}=useContext(UserContext);
     const {shop,setShop}=useContext(UserContext);
     const navigate = useNavigate();
+    
     let route;
+    let route1;
+
+    const cart = shop.length;
+    
+    function link(){
+        if (icon1 === 'cart'){
+            route1='/carrinho'
+        }else{
+            route1='/products'
+        }
+    navigate(route1)
+}
     
     function logout(){
         if(icon2==='log-out-outline'){
             route='/';
             localStorage.removeItem('progamers');
-            setCart(0);
             setShop('');
       
         }else{
@@ -37,8 +48,15 @@ function Menu({icon1,icon2}){
     
     return(
     <MenuWrapper>
-        <ion-icon name={icon1}></ion-icon>
-        {(icon1==="cart"&&cart>0)?(<div><h1>{cart}</h1></div>):(<></>)}
+        <ion-icon name={icon1} onClick={link}></ion-icon>
+
+        {
+            (icon1 === "cart" && cart > 0)?
+                (<div onClick={link}><h1>{cart}</h1></div>)
+                :
+                (<></>)
+        }
+
        <Link to={'/home'}><p>ProGamers</p></Link>
         
         <ion-icon onClick={logout} name={icon2} ></ion-icon>
