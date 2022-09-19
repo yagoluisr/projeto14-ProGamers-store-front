@@ -5,6 +5,7 @@ import SignUp from "./SignUp";
 import Home from "./Home";
 import SignIn from "./SignIn";
 import { useState } from "react";
+import Cart from "./Cart";
 import Products from "./Products";
 import PrivatePage from "./PrivatePage";
 import Sucess from "./Sucess";
@@ -24,10 +25,9 @@ export default function App(){
             <Routes>
                 <Route path='/' element={<SignIn/>}/>
                 <Route path='/sign-up' element={<SignUp/>}/>
-
                 <Route path='/home' element={<PrivatePage><Home/></PrivatePage>}/>
                 <Route path='/products' element={<PrivatePage><Products/></PrivatePage>}/>
-
+                <Route path='/carrinho' element={<PrivatePage><Cart /></PrivatePage>}/>
                 <Route path='/sucess' element={<PrivatePage><Sucess/></PrivatePage>}/>
             </Routes>   
             </UserContext.Provider>

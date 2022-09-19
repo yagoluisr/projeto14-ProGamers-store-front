@@ -33,4 +33,10 @@ function login(body) {
     return promise;
 }
 
-export { register,getProducts,login,getCategories}
+function finalizePurchase(body) {
+    const config=createHeaders();
+    const promise = axios.post(`${BASE_URL}carrinho`, body, config);
+    return promise
+}
+
+export { register, getProducts, login, getCategories, finalizePurchase}

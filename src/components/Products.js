@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../contexts/User.context";
 import { getProducts } from "../services/progamers";
@@ -10,6 +11,8 @@ export default function Products(){
     const{selection}=useContext(UserContext);
     const {shop,setShop}= useContext(UserContext);
     const {cart,setCart}= useContext(UserContext);
+
+    const navigate = useNavigate()
    
     useEffect(()=>{
         getProducts()
@@ -20,8 +23,10 @@ export default function Products(){
                 setProductList(answer.data.Headsets);
             }else if(selection==='Desktop'){
                 setProductList(answer.data.Desktop);
-            }else {
+            }else if(selection==='Teclados'){
                 setProductList(answer.data.Teclados);
+            } else {
+                navigate('/home')
             }
         ;})
          .catch((error)=>{
@@ -36,9 +41,14 @@ export default function Products(){
            
         {productList?(productList.map((value)=>
             <Product onClick={()=>{
-            setShop([...shop,{title:value.title,value:value.value,image:value.image}]);
-            console.log('shop',shop);
-            setCart(shop.length);
+            setShop([
+                ...shop,
+                {
+                    title:value.title,
+                    value:value.value,
+                    image:value.image
+                }
+            ]);
             }} title={value.title} value={value.value} image={value.image}>
             </Product>
             )):(<></>)}
