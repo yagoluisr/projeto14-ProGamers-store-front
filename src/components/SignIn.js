@@ -26,8 +26,9 @@ export default function SignIn() {
 
         login(data).then((res) => {
             
-            const token=res.data;
-            const authJSON =JSON.stringify({token:token});
+            const token=res.data.token;
+            const name=res.data.name;
+            const authJSON =JSON.stringify({token:token,name:name});
             localStorage.setItem('progamers',authJSON)   
 
             navigate('/home');
