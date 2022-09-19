@@ -27,7 +27,7 @@ function Menu({icon1,icon2}){
     
     function link(){
         if (icon1 === 'cart'){
-            route1='/carrinho'
+            route1='/cart'
         }else{
             route1='/products'
         }

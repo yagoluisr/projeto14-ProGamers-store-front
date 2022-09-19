@@ -14,9 +14,11 @@ export default function Cart() {
     const local=JSON.parse(localStorage.getItem('progamers'));
     const name=local.name;
 
+    console.log(name)
+    
     let soma = 0;
     shop.forEach(obj => soma += Number(obj.value.replace(',', '.')));
-
+    
     const [total, setTotal] = useState(0);
     const [data, setData] = useState({
         username: name,
@@ -25,9 +27,9 @@ export default function Cart() {
         date: dayjs().format('DD/MM/YY'),
         products: shop
     });
-
+    
     const navigate = useNavigate()
-
+    
     function updateData(e) {
         setData({
             ...data,
@@ -37,13 +39,14 @@ export default function Cart() {
     
     function finalizePurchases() {
         const obj = {
-            username: '',
-            adress: '',
+            username: name,
+            adress: data.adress,
             amount: (total + 14.99).toFixed(2),
             date: dayjs().format('DD/MM/YY'),
             products: shop
         }
-
+        console.log(obj)
+        
         finalizePurchase(obj).then(() => {
             navigate('/sucesso');
         }).catch(error => {
