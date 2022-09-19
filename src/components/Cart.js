@@ -8,16 +8,15 @@ import { finalizePurchase } from "../services/progamers";
 
 
 export default function Cart() {
-
     const { shop, setShop } = useContext(UserContext);
     
-    const local=JSON.parse(localStorage.getItem('progamers'));
-    const name=local.name;
+    const local = JSON.parse(localStorage.getItem('progamers'));
+    const name = local.name;
 
     let soma = 0;
     shop.forEach(obj => soma += Number(obj.value.replace(',', '.')));
 
-    const [total, setTotal] = useState(0);
+    const [total, setTotal] = useState(soma);
     const [data, setData] = useState({
         username: name,
         adress: '',
@@ -25,8 +24,9 @@ export default function Cart() {
         date: dayjs().format('DD/MM/YY'),
         products: shop
     });
-
+    
     const navigate = useNavigate()
+
 
     function updateData(e) {
         setData({
@@ -36,7 +36,7 @@ export default function Cart() {
     }
     
     function finalizePurchases() {
-        const obj = {
+        const userPurchase = {
             username: name,
             adress: data.adress,
             amount: (total + 14.99).toFixed(2),
@@ -44,22 +44,24 @@ export default function Cart() {
             products: shop
         }
 
-        finalizePurchase(obj).then(() => {
-            finalizePurchase(obj).then(()=>{
+        if (userPurchase.adress === '') return alert('Preencha o campo de "endereço"');
+        if (userPurchase.products.length === 0) return alert('Adicione pelo menos 1 item no carrinho');
+
+        finalizePurchase(userPurchase).then(() => {
+            finalizePurchase(userPurchase).then(()=>{
                 console.log('OK')
+                setShop([]);
+                setTotal(0);
                 navigate('/sucess');
             })}).catch(error => {
             console.log(error.response)
         });
     }
 
-    setTimeout(()=>{
-        setTotal(soma)
-    },300)
-
     return (
         <>
             <Menu icon1={'arrow-back-outline'} icon2={'log-out-outline'}></Menu>
+
         <Container>
             <Adress>
                 <span>Endereço:</span>
@@ -83,9 +85,8 @@ export default function Cart() {
                     shop={shop} setShop={setShop} {...obj}/>
                 ))}
                 
-                <Clear onClick={() => setShop([])}>Limpar carrinho X</Clear>
+                <Clear onClick={() => {setShop([]); setTotal(0)}}>Limpar carrinho X</Clear>
             </Products>
-
 
             <Extract>
                 <Sumary>
@@ -123,7 +124,7 @@ export default function Cart() {
 function CartItem({index, image, value, title, total, setTotal, shop, setShop, soma}) {
     const [count, setCount] = useState(1);
     
-    soma = soma + Number(value.replace(',', '.')) * count
+    let price = Number(value.replace(',', '.'))
 
     return (
         <>
@@ -148,15 +149,15 @@ function CartItem({index, image, value, title, total, setTotal, shop, setShop, s
                                         if(count > 1){
                                             const subtraction = count - 1
                                             setCount(subtraction);
-                                            setTotal(total - (soma * (count -1)))
+                                            setTotal(total - price);
                                         }
                                     }}>
                                 </ion-icon>
                                     {count} 
                                 <ion-icon name="chevron-forward-outline" 
                                     onClick={()=>{
-                                        setCount(count + 1)
-                                        setTotal(total + (soma + Number(value.replace(',', '.')) * (count +1)))
+                                        setCount(count + 1);
+                                        setTotal(total + price);
                                     }
                                 }></ion-icon> 
                             </Amount>
@@ -164,11 +165,11 @@ function CartItem({index, image, value, title, total, setTotal, shop, setShop, s
                             <Remove onClick={()=>{
                                 const shopCopy = [...shop]
                                 shopCopy.splice(index,1)
-                                setShop(shopCopy);                            
+                                setShop(shopCopy);
+                                setTotal(total - price * count)
                             }}  >Remover</Remove>
                         </Actions>
                 </BoxProduct>
-
             </Product>
         </>
     )
@@ -187,10 +188,10 @@ const NewButton = styled(ButtonWrapper)`
 
 
 const Container = styled.div`
-    height: 100%;
+    height: 90%;
     width: 95%;
 
-    margin: 150px auto 50px auto;
+    margin: 55px auto 50px auto;
     input {
         margin-top: 10px;
     }
@@ -260,6 +261,7 @@ const Product = styled.div`
 
     background-color: #1f222a;
 
+    padding-left: 5px;
 
 `
 
@@ -269,7 +271,6 @@ const BoxProduct = styled.div`
     display: flex;
 
     margin-top: 12px;
-
 `
 const ImgProduct = styled.div`
 
@@ -286,9 +287,11 @@ const Details = styled.div`
     flex-direction: column;
     justify-content: space-around;
 
+    margin-left: 5px;
+
     p {
-        font-weight: 600;
-        font-size: 25px;
+        font-weight: 500;
+        font-size: 20px;
 
         color: #ffffff;
     }
@@ -306,7 +309,8 @@ const Actions = styled.div`
 `
 
 const Value = styled.span`
-    font-size: 30px;
+    font-size: 25px;
+    font-weight: 500;
     color: aqua;
 `
 
