@@ -1,24 +1,26 @@
 import { useContext, useEffect, useState } from "react"
 import styled from "styled-components"
-import { ButtonWrapper, Input } from "./Components"
+import { ButtonWrapper, Input, Menu } from "./Components"
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/User.context";
+import { finalizePurchase } from "../services/progamers";
 
 
 export default function Cart() {
     const { shop, setShop } = useContext(UserContext);
     
+    let soma = 0;
+    shop.forEach(obj => soma += Number(obj.value.replace(',', '.')));
+
     const [total, setTotal] = useState(0);
     const [data, setData] = useState({
         username: '',
         adress: '',
-        amount: '',
+        amount: soma,
         date: dayjs().format('DD/MM/YY'),
-        products: []
+        products: shop
     });
-
-    console.log(shop)
 
     const navigate = useNavigate()
 
@@ -28,35 +30,30 @@ export default function Cart() {
             [e.target.name]: e.target.value
         });
     }
+    
+    function finalizePurchases() {
+        const obj = {
+            username: '',
+            adress: '',
+            amount: (total + 14.99).toFixed(2),
+            date: dayjs().format('DD/MM/YY'),
+            products: shop
+        }
 
-    // useEffect(()=>{
-    //     console.log('MUDOU !!!')
-    // },[total])
-
-    //let soma = 0;
-    
-    
-        let soma = 0;
-        shop.forEach(obj => soma += Number(obj.value.replace(',', '.')));
-        //setTotal(soma)
-    
-    
-    function finalizePurchase() {
-        navigate('/sucesso');
-        // finalizePurchase(data).then(res => {
-        //     console.log(res.data)
-        //     navigate('/sucesso');
-        // }).catch(error => {
-        //     console.log(error)
-        // });
+        finalizePurchase(obj).then(() => {
+            navigate('/sucesso');
+        }).catch(error => {
+            console.log(error.response)
+        });
     }
 
     setTimeout(()=>{
         setTotal(soma)
     },300)
 
-    //console.log(soma)
     return (
+        <>
+            <Menu icon1={'arrow-back-outline'} icon2={'log-out-outline'}></Menu>
         <Container>
             <Adress>
                 <span>Endereço:</span>
@@ -74,7 +71,7 @@ export default function Cart() {
                 <span>Produtos</span>
 
                 { shop.map((obj, key) => (
-                    shop.length === 0 ? <>DEU RUIM !!!</> 
+                    shop.length === 0 ? <Message>DEU RUIM !!!</Message> 
                     : 
                     <CartItem key={key} index={key} total={total} setTotal={setTotal} 
                     shop={shop} setShop={setShop} {...obj}/>
@@ -92,7 +89,7 @@ export default function Cart() {
 
                 <ValueProducts>
                     <div>Valor dos produtos:</div>
-                    <div>R$ {total}</div>
+                    <div>R$ {total.toFixed(2)}</div>
                 </ValueProducts>
 
                 <ShippingDetails>
@@ -106,23 +103,21 @@ export default function Cart() {
                 </TotalValue>
 
                 <Buttons>
-                    <NewButton onClick={finalizePurchase}>Finalizar compra</NewButton>
+                    <NewButton onClick={finalizePurchases}>Finalizar compra</NewButton>
                     <NewButton onClick={() => navigate('/home')}>Continuar Comprando</NewButton>
                 </Buttons>
             </Extract>
 
     
         </Container>
+        </>
     )
 }
 
 function CartItem({index, image, value, title, total, setTotal, shop, setShop, soma}) {
     const [count, setCount] = useState(1);
     
-    //console.log(total+Number(value.replace(',', '.'))*count);
-    //let soma = 0
     soma = soma + Number(value.replace(',', '.')) * count
-    console.log(count)
 
     return (
         <>
@@ -163,7 +158,7 @@ function CartItem({index, image, value, title, total, setTotal, shop, setShop, s
                             <Remove onClick={()=>{
                                 const shopCopy = [...shop]
                                 shopCopy.splice(index,1)
-                                setShop(shopCopy);
+                                setShop(shopCopy);                            
                             }}  >Remover</Remove>
                         </Actions>
                 </BoxProduct>
@@ -189,7 +184,7 @@ const Container = styled.div`
     height: 100%;
     width: 95%;
 
-    margin: 100px auto 50px auto;
+    margin: 150px auto 50px auto;
     input {
         margin-top: 10px;
     }
@@ -427,3 +422,10 @@ const Buttons = styled.div`
 
     margin-top: 20px;
 `   
+
+const Message = styled.div`
+    
+    font-size: 40px;
+    font-weight: 500;
+    color: #ffffff;
+`

@@ -34,7 +34,8 @@ function login(body) {
 }
 
 function finalizePurchase(body) {
-    const promise = axios.post(`${BASE_URL}/carrinho`, body);
+    const config=createHeaders();
+    const promise = axios.post(`${BASE_URL}carrinho`, body, config);
     return promise
 }
 
