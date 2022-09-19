@@ -27,7 +27,7 @@ export default function App(){
                 <Route path='/sign-up' element={<SignUp/>}/>
                 <Route path='/home' element={<PrivatePage><Home/></PrivatePage>}/>
                 <Route path='/products' element={<PrivatePage><Products/></PrivatePage>}/>
-                <Route path='/carrinho' element={<PrivatePage><Cart /></PrivatePage>}/>
+                <Route path='/cart' element={<PrivatePage><Cart /></PrivatePage>}/>
                 <Route path='/sucess' element={<PrivatePage><Sucess/></PrivatePage>}/>
             </Routes>   
             </UserContext.Provider>

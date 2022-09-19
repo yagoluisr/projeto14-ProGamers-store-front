@@ -37,16 +37,18 @@ export default function Cart() {
     
     function finalizePurchases() {
         const obj = {
-            username: '',
-            adress: '',
+            username: name,
+            adress: data.adress,
             amount: (total + 14.99).toFixed(2),
             date: dayjs().format('DD/MM/YY'),
             products: shop
         }
 
         finalizePurchase(obj).then(() => {
-            navigate('/sucesso');
-        }).catch(error => {
+            finalizePurchase(obj).then(()=>{
+                console.log('OK')
+                navigate('/sucess');
+            })}).catch(error => {
             console.log(error.response)
         });
     }
@@ -61,14 +63,16 @@ export default function Cart() {
         <Container>
             <Adress>
                 <span>Endereço:</span>
-                <Input
-                    name = 'adress'
-                    type = 'text'
-                    placeholder = 'Rua, número, bairro e cidade'
-                    value = {data.name}
-                    onChange={updateData}
-                    required
-                ></Input>
+                <form>
+                    <Input
+                        name = 'adress'
+                        type = 'text'
+                        placeholder = 'Rua, número, bairro e cidade'
+                        value = {data.name}
+                        onChange={updateData}
+                        required
+                    ></Input>
+                </form>
             </Adress>
 
             <Products>
